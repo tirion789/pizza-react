@@ -1,36 +1,46 @@
 import React from "react";
 
-const PizzaBlock = ({title, price}) => {
-  const [pizzaCount, setPizzaCount] = React.useState(0);
+const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
 
-  const onClickAddBtn = () => {
-    setPizzaCount(pizzaCount + 1)
-  }
+  const [activeType, setActiveType] = React.useState(0);
 
-  const  onClickResetBtn = () => {
-    setPizzaCount(React.initialState = 0);
-  }
+  const [activeSize, setActiveSize] = React.useState(0);
+
+
+  const typesNames = ['тонкое', 'традиционное']
+
     return (<div className="pizza-block">
     <img
       className="pizza-block__image"
-      src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+      src={imageUrl}
       alt="Pizza"
     />
     <h4 className="pizza-block__title">{title}</h4>
     <div className="pizza-block__selector">
+      {/* выбор типа пиццы */}
       <ul>
-        <li className="active">тонкое</li>
-        <li>традиционное</li>
+      {types.map((typeId => 
+        <li
+         onClick = {() => setActiveType(typeId)}
+         className = {activeType === typeId ? 'active' : ''}>{typesNames[typeId]}
+         </li>
+          ))}
       </ul>
+      {/* выбор размера пиццы */}
       <ul>
-        <li className="active">26 см.</li>
-        <li>30 см.</li>
-        <li>40 см.</li>
+      {sizes.map((size, index ) => ( 
+        <li
+         onClick = {() => setActiveSize(index)}
+          className = {activeSize === index  ? 'active' : ''}>{size} см.
+          </li>
+          ))}
       </ul>
     </div>
+
+    {/* прочее  */}
     <div className="pizza-block__bottom">
       <div className="pizza-block__price">от {price} ₽</div>
-      <button onClick={onClickAddBtn} className="button button--outline button--add">
+      <button className="button button--outline button--add">
         <svg
           width="12"
           height="12"
@@ -43,10 +53,10 @@ const PizzaBlock = ({title, price}) => {
           />
         </svg>
         <span>Добавить</span>
-        <i>{pizzaCount}</i>
+        <i>1</i>
       </button>
     </div>
-    <button className="button button--outline button--add button__reset"  onClick={onClickResetBtn} >Сбросить</button>
+    <button className="button button--outline button--add button__reset"  >Сбросить</button>
   </div>)
 }
 
