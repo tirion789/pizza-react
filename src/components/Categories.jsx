@@ -21,9 +21,13 @@ const Cotegories = () => {
       {/* навигация по пиццам */}
         <ul>
           {
-            categories.map((value, index) => (
-              <li onClick = {() => onClickCategories(index)} className = {activeIndex === index ? "active" : ''} >{value}</li>
-            ))
+          categories.map((value, index) =>
+            <li
+            key={index}
+            onClick={()=> {onClickCategories(index)}}  className= {activeIndex === index ? "active" : '' }> 
+            {value}
+            </li>
+            )
           }
         </ul>
       </div>
@@ -31,3 +35,4 @@ const Cotegories = () => {
   };
 
   export default Cotegories;
+  

@@ -11,8 +11,6 @@ import PizzaBlock from './components/Pizza-block';
 
 import './scss/app.scss';
 
-console.log(pizzass);
-
 function App() {
   return (
     <div className="wrapper">
@@ -27,6 +25,7 @@ function App() {
           <div className="content__items">
             {pizzass.map((obj) => (
               <PizzaBlock
+                key={obj.id}
                 title={obj.title}
                 price={obj.price}
                 imageUrl={obj.imageUrl}

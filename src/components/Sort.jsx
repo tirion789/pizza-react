@@ -1,4 +1,24 @@
+import React from "react";
+
 const Sort = () => {
+
+  const  [isVisible, setIsVisible] = React.useState(false)
+
+  const sorts = [
+    'популярности',
+    'цене',
+    'алфивиту',
+  ]
+
+  // const [remasterSort, setRemasterSort] = React.useState('популярности')
+  const [activeSort, setActiveSort] = React.useState(0)
+  
+  const hendlerSortClick = (index) => {
+    setActiveSort(index);
+    setIsVisible(false)
+    // setRemasterSort(event.target.textContent);
+  }
+
     return (
       <div className="sort">
         <div className="sort__label">
@@ -14,15 +34,20 @@ const Sort = () => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span>популярности</span>
+          <span onClick={() => isVisible === false ? setIsVisible(true) : setIsVisible(false)} >{sorts[activeSort]}</span>
         </div>
+        { isVisible && (
         <div className="sort__popup">
           <ul>
-            <li className="active">популярности</li>
-            <li>цене</li>
-            <li>алфавиту</li>
+            {
+              sorts.map((value, index) => 
+                <li  key={index} onClick={() => hendlerSortClick(index)} className= {activeSort === index ? "active" : ''}>
+                  {value}
+                </li>
+                )
+            }
           </ul>
-        </div>
+        </div>)}
       </div>
     );
   };

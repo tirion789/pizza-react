@@ -6,6 +6,8 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
 
   const [activeSize, setActiveSize] = React.useState(0);
 
+  const [plusIndex, setPlusIndex] = React.useState(0);
+
 
   const typesNames = ['тонкое', 'традиционное']
 
@@ -21,6 +23,7 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
       <ul>
       {types.map((typeId => 
         <li
+        key={typeId}
          onClick = {() => setActiveType(typeId)}
          className = {activeType === typeId ? 'active' : ''}>{typesNames[typeId]}
          </li>
@@ -30,6 +33,7 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
       <ul>
       {sizes.map((size, index ) => ( 
         <li
+        key={index}
          onClick = {() => setActiveSize(index)}
           className = {activeSize === index  ? 'active' : ''}>{size} см.
           </li>
@@ -40,7 +44,7 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
     {/* прочее  */}
     <div className="pizza-block__bottom">
       <div className="pizza-block__price">от {price} ₽</div>
-      <button className="button button--outline button--add">
+      <button onClick={() => setPlusIndex(plusIndex + 1)} className="button button--outline button--add">
         <svg
           width="12"
           height="12"
@@ -53,10 +57,10 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
           />
         </svg>
         <span>Добавить</span>
-        <i>1</i>
+        <i>{plusIndex}</i>
       </button>
     </div>
-    <button className="button button--outline button--add button__reset"  >Сбросить</button>
+    <button onClick={() => setPlusIndex(0)} className="button button--outline button--add button__reset"  >Сбросить</button>
   </div>)
 }
 
