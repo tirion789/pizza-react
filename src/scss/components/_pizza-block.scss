@@ -6,8 +6,12 @@
   margin-bottom: 65px;
   position: relative;
 
+  @media (max-width: 340px) {
+    width: auto;
+  }
+
   &__image {
-    width: 260px;
+    width: 100%;
   }
 
   &__title {
@@ -23,6 +27,7 @@
     border-radius: 10px;
     flex-direction: column;
     padding: 6px;
+
 
     ul {
       display: flex;
