@@ -11,7 +11,8 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
 
   const typesNames = ['тонкое', 'традиционное']
 
-    return (<div className="pizza-block">
+    return <div className="pizza-block-wrapper">
+      <div className="pizza-block">
     <img
       className="pizza-block__image"
       src={imageUrl}
@@ -61,7 +62,8 @@ const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
       </button>
     </div>
     <button onClick={() => setPlusIndex(0)} className="button button--outline button--add button__reset"  >Сбросить</button>
-  </div>)
+  </div>
+    </div>
 }
 
 export default PizzaBlock;
