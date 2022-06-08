@@ -4,27 +4,29 @@ import Cotegories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/Pizza-block';
 import Skeleton from '../components/Pizza-block/skeleton';
+import Pagination from '../components/pagination'
 
-const Home = () => {
+const Home = ({searchValue}) => {
 
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [categoryIndex, setCategoryIndex] = React.useState(0);
+    const [page, setPage] = React.useState(1)
     const [sortType, setSortType] = React.useState(
-      { name:'популярности', sort: 'rating'}
+      { name:'популярности (DESC)', sort: 'rating'}
     )
   
     React.useEffect(() => {
       setIsLoading(true)
       const order = sortType.sort.includes('-') ? 'asc' : 'desc'
-      fetch(`https://629b64b3656cea05fc3883e0.mockapi.io/Items?${categoryIndex > 0 ? `category=${categoryIndex}` : ''}&sortBy=${sortType.sort.replace('-', '')}&order=${order}`)
+      fetch(`https://629b64b3656cea05fc3883e0.mockapi.io/Items?&page=${page}&limit=4&${categoryIndex > 0 ? `category=${categoryIndex}` : ''}&sortBy=${sortType.sort.replace('-', '')}&order=${order}&search=${searchValue}`)
         .then((response) => response.json())
         .then((array) => {
           setItems(array);
           setIsLoading(false);
         });
         window.scrollTo(0, 0)
-    }, [categoryIndex, sortType]);
+    }, [categoryIndex, sortType, searchValue, page]);
 
     return (  
     <>
@@ -35,8 +37,16 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
-          : items.map((obj) => (
+          ? [...new Array(4)].map((_, index) => <Skeleton key={index} />)
+          // фитрация через js
+          : items.filter((obj) => {
+            if(obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+              return true
+            }
+            return false
+          }
+          //
+          ).map((obj) => (
               <PizzaBlock
                 key={obj.id}
                 title={obj.title}
@@ -47,8 +57,10 @@ const Home = () => {
               />
             ))}
       </div>
+      <Pagination onChangePage={(number) => setPage(number)} />
     </>)
 }
+
 
 export default Home
 
