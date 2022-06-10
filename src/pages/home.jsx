@@ -5,8 +5,11 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/Pizza-block';
 import Skeleton from '../components/Pizza-block/skeleton';
 import Pagination from '../components/pagination'
+import { SearchContext } from "../App";
 
-const Home = ({searchValue}) => {
+const Home = () => {
+
+  const {searchValue} = React.useContext(SearchContext)
 
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -39,12 +42,7 @@ const Home = ({searchValue}) => {
         {isLoading
           ? [...new Array(4)].map((_, index) => <Skeleton key={index} />)
           // фитрация через js
-          : items.filter((obj) => {
-            if(obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-              return true
-            }
-            return false
-          }
+          : items.filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase())
           //
           ).map((obj) => (
               <PizzaBlock
