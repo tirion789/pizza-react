@@ -1,6 +1,11 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSort } from "../redux/slices/filterSlice"
 
-const Sort = ({value, onClickSort}) => {
+const Sort = () => {
+
+ const dispatch = useDispatch();
+ const sort = useSelector(state => state.filterSlice.sortType)
 
   const  [isVisible, setIsVisible] = React.useState(false)
 
@@ -14,10 +19,9 @@ const Sort = ({value, onClickSort}) => {
   ]
 
   
-  const hendlerSortClick = (index) => {
-    onClickSort(index);
+  const hendlerSortClick = (obj) => {
+    dispatch(setSort(obj))
     setIsVisible(false)
-    // setRemasterSort(event.target.textContent);
   }
 
     return (
@@ -35,14 +39,14 @@ const Sort = ({value, onClickSort}) => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={() => isVisible === false ? setIsVisible(true) : setIsVisible(false)} >{value.name}</span>
+          <span onClick={() => isVisible === false ? setIsVisible(true) : setIsVisible(false)} >{sort.name}</span>
         </div>
         { isVisible && (
         <div className="sort__popup">
           <ul>
             {
               sorts.map((obj, index) => 
-                <li  key={index} onClick={() => hendlerSortClick(obj)} className= {value.sort === obj.sort ? "active" : ''}>
+                <li  key={index} onClick={() => hendlerSortClick(obj)} className= {sort.sort === obj.sort ? "active" : ''}>
                   {obj.name}
                 </li>
                 )

@@ -1,5 +1,7 @@
 import React from "react"
+import { useSelector, useDispatch } from "react-redux"
 
+import { setCategoryIndex } from "../redux/slices/filterSlice";
 import Cotegories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/Pizza-block';
@@ -8,17 +10,23 @@ import Pagination from '../components/pagination'
 import { SearchContext } from "../App";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  const {categoryIndex, sortType} = useSelector((state) => state.filterSlice)
+  
+
+
+  const onClickCategory = (id) => {
+    dispatch(setCategoryIndex(id))
+  }
 
   const {searchValue} = React.useContext(SearchContext)
 
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    const [categoryIndex, setCategoryIndex] = React.useState(0);
     const [page, setPage] = React.useState(1)
-    const [sortType, setSortType] = React.useState(
-      { name:'популярности (DESC)', sort: 'rating'}
-    )
-  
+
+
     React.useEffect(() => {
       setIsLoading(true)
       const order = sortType.sort.includes('-') ? 'asc' : 'desc'
@@ -34,8 +42,8 @@ const Home = () => {
     return (  
     <>
       <div className="content__top">
-        <Cotegories value={categoryIndex} onClickCategory={(index) => setCategoryIndex(index)} />
-        <Sort value={sortType} onClickSort={(index) => setSortType(index)} />
+        <Cotegories value={categoryIndex} onClickCategory={onClickCategory} />
+        <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
