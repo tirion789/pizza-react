@@ -2,23 +2,27 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice"
 
+
+
+export const sortsList = [
+  { name:'популярности (DESC)', sort: 'rating'},
+  { name:'популярности (ASC)', sort: '-rating'},
+  { name:'цене (DESC)', sort: 'price'},
+  { name:'цене (ASC)', sort: '-price'},
+  { name:'алфавиту (DESC)', sort: 'title'},
+  { name:'алфавиту (ASC)', sort: '-title'}
+]
+
+
 const Sort = () => {
 
+
  const dispatch = useDispatch();
- const sort = useSelector(state => state.filter.sortType)
+ const sortasdf = useSelector(state => state.filter.sortType)
 
   const  [isVisible, setIsVisible] = React.useState(false)
 
-  const sorts = [
-    { name:'популярности (DESC)', sort: 'rating'},
-    { name:'популярности (ASC)', sort: '-rating'},
-    { name:'цене (DESC)', sort: 'price'},
-    { name:'цене (ASC)', sort: '-price'},
-    { name:'алфавиту (DESC)', sort: 'title'},
-    { name:'алфавиту (ASC)', sort: '-title'}
-  ]
 
-  
   const hendlerSortClick = (obj) => {
     dispatch(setSort(obj))
     setIsVisible(false)
@@ -39,14 +43,14 @@ const Sort = () => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={() => isVisible === false ? setIsVisible(true) : setIsVisible(false)} >{sort.name}</span>
+          <span onClick={() => isVisible === false ? setIsVisible(true) : setIsVisible(false)} >{sortasdf.name}</span>
         </div>
         { isVisible && (
         <div className="sort__popup">
           <ul>
             {
-              sorts.map((obj, index) => 
-                <li  key={index} onClick={() => hendlerSortClick(obj)} className= {sort.sort === obj.sort ? "active" : ''}>
+              sortsList.map((obj, index) => 
+                <li  key={index} onClick={() => hendlerSortClick(obj)} className= {sortasdf.sort === obj.sort ? "active" : ''}>
                   {obj.name}
                 </li>
                 )
