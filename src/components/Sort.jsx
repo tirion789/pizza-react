@@ -16,7 +16,8 @@ export const sortsList = [
 
 const Sort = () => {
 
-
+ const sortRef = React.useRef(); 
+ console.log(sortRef)
  const dispatch = useDispatch();
  const sortasdf = useSelector(state => state.filter.sortType)
 
@@ -28,8 +29,19 @@ const Sort = () => {
     setIsVisible(false)
   }
 
+  React.useEffect(() => {
+    const hendlerClickOutsize = (event) => {
+        if(!event.path.includes(sortRef.current)) {
+          setIsVisible(false)
+        }
+    }
+    document.body.addEventListener('click', hendlerClickOutsize);
+
+    return () => document.body.removeEventListener('click', hendlerClickOutsize)
+  }, [])
+
     return (
-      <div className="sort">
+      <div ref={sortRef} className="sort">
         <div className="sort__label">
           <svg
             width="10"
