@@ -3,7 +3,9 @@ import axios from "axios";
 import qs from "qs";
 
 
-import { useNavigate } from "react-router-dom";
+
+
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategoryIndex, setPageCount, setFilters } from "../redux/slices/filterSlice";
 import Cotegories from '../components/Categories';
@@ -16,6 +18,9 @@ import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 
 const Home = () => {
+
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
@@ -111,13 +116,8 @@ const Home = () => {
           ? skeletons
           // фитрация через js
           : items.filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase())
-          //
-          ).map((obj) => (
-              <PizzaBlock
-                key={obj.id}
-                {...obj}
-              />
-            ))}
+          ).map((obj) => <PizzaBlock key={obj.id} {...obj}/>
+            )}
       </div>
       }
       <Pagination value={pageCount} onChangePage={onChangePage} />
@@ -126,4 +126,6 @@ const Home = () => {
 
 
 export default Home
+
+
 

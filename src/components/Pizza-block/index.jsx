@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, clearItems } from "../../redux/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 const PizzaBlock = ({id, title, price, imageUrl, sizes, types}) => {
 
@@ -12,6 +13,10 @@ const PizzaBlock = ({id, title, price, imageUrl, sizes, types}) => {
   const [activeSize, setActiveSize] = React.useState(0);
 
   const addedCount = cartItem ? cartItem.count : 0
+
+  const onResetCart = (obj) => {
+    dispatch(clearItems(obj))
+   }
 
 
   const onClickAdd = () => {
@@ -29,11 +34,13 @@ const PizzaBlock = ({id, title, price, imageUrl, sizes, types}) => {
 
     return <div className="pizza-block-wrapper">
       <div className="pizza-block">
+        <Link to={`/pizza/${id}`}>
     <img
       className="pizza-block__image"
       src={imageUrl}
       alt="Pizza"
     />
+    </Link>
     <h4 className="pizza-block__title">{title}</h4>
     <div className="pizza-block__selector">
       {/* выбор типа пиццы */}
@@ -74,10 +81,11 @@ const PizzaBlock = ({id, title, price, imageUrl, sizes, types}) => {
           />
         </svg>
         <span>Добавить</span>
+        
         {addedCount > 0 && <i>{addedCount}</i>}
       </button>
     </div>
-    <button className="button button--outline button--add button__reset"  >Сбросить</button>
+    <button onClick={onResetCart} className="button button--outline button--add button__reset"  >Сбросить</button>
   </div>
     </div>
 }
