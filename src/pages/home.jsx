@@ -36,8 +36,6 @@ const Home = () => {
   
   const onClickCategory = (id) => {
     dispatch(setCategoryIndex(id))
-
-    
   }
 
 
@@ -105,6 +103,12 @@ const Home = () => {
         <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
+      { searchValue === '' || items.find((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase())) ? console.log('МЫ НАШЛИ ВАШИ ПИЦЦЫ') : <div className="content__error-info">
+        <h2>Произошла ошибка <icon>😕</icon></h2>
+        <p>
+        К сожалению, пицц по вашему запросу не найдено
+        </p>
+        </div>}
       {
         status === 'error' ? <div className="content__error-info">
           <h2>Произошла ошибка <icon>😕</icon></h2>
@@ -116,7 +120,13 @@ const Home = () => {
           ? skeletons
           // фитрация через js
           : items.filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase())
-          ).map((obj) => <PizzaBlock key={obj.id} {...obj}/>
+          ).map((obj) => <PizzaBlock 
+          title={obj.title}
+          price={obj.price}
+          imageUrl={obj.imageUrl}
+          sizes={obj.sizes}
+          types={obj.types}
+          id = {obj.id}/>
             )}
       </div>
       }
