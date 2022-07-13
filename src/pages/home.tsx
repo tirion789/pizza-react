@@ -1,11 +1,10 @@
 import React from "react"
-import axios from "axios";
 import qs from "qs";
 
 
 
 
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategoryIndex, setPageCount, setFilters } from "../redux/slices/filterSlice";
 import Cotegories from '../components/Categories';
@@ -17,7 +16,7 @@ import { sortsList } from "../components/Sort";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 
-const Home = () => {
+const Home: React.FC = () => {
 
 
 
@@ -26,15 +25,16 @@ const Home = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false)
 
- const onChangePage = (id) => {
+ const onChangePage = (id: number) => {
   dispatch(setPageCount(id))
  }
-
+  // @ts-ignore
   const {categoryIndex, sortType, pageCount, searchValue} = useSelector((state) => state.filter)
+  // @ts-ignore
   const {items, status} = useSelector((state) => state.pizzas)
   
   
-  const onClickCategory = (id) => {
+  const onClickCategory = (id: number) => {
     dispatch(setCategoryIndex(id))
   }
 
@@ -46,7 +46,9 @@ const Home = () => {
       const order = sortType.sort.includes('-') ? 'asc' : 'desc'
       const sortBy = sortType.sort.replace('-', '')
       const category = categoryIndex > 0 ? `category=${categoryIndex}` : ''
-      dispatch(fetchPizzas({
+      dispatch
+      // @ts-ignore
+      (fetchPizzas({
         pageCount, category, sortBy, order, searchValue
       }))
     }
@@ -103,15 +105,15 @@ const Home = () => {
         <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      { searchValue === '' || items.find((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase())) ? console.log('МЫ НАШЛИ ВАШИ ПИЦЦЫ') : <div className="content__error-info">
-        <h2>Произошла ошибка <icon>😕</icon></h2>
+      { searchValue === '' || items.find((obj: any) => obj.title.toLowerCase().includes(searchValue.toLowerCase())) ? console.log('МЫ НАШЛИ ВАШИ ПИЦЦЫ') : <div className="content__error-info">
+        <h2>Произошла ошибка <span>😕</span></h2>
         <p>
         К сожалению, пицц по вашему запросу не найдено
         </p>
         </div>}
       {
         status === 'error' ? <div className="content__error-info">
-          <h2>Произошла ошибка <icon>😕</icon></h2>
+          <h2>Произошла ошибка <span>😕</span></h2>
           <p>
             К сожалению, не удалось получить пиццы. Попробуйте повторить попытку позже 
           </p>
@@ -119,8 +121,8 @@ const Home = () => {
         {status === 'loading'
           ? skeletons
           // фитрация через js
-          : items.filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase())
-          ).map((obj) => <PizzaBlock 
+          : items.filter((obj: any) => obj.title.toLowerCase().includes(searchValue.toLowerCase())
+          ).map((obj: any) => <PizzaBlock 
           title={obj.title}
           price={obj.price}
           imageUrl={obj.imageUrl}
