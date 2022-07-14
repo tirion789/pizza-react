@@ -7,6 +7,10 @@ type SortItem = {
   sort: string
 }
 
+type PopupClick = MouseEvent & {
+  path: Node[];
+}
+
 export const sortsList: SortItem[] = [
   { name:'популярности (DESC)', sort: 'rating'},
   { name:'популярности (ASC)', sort: '-rating'},
@@ -17,7 +21,7 @@ export const sortsList: SortItem[] = [
 ]
 
 
-const Sort = () => {
+const Sort: React.FC = () => {
 
  const sortRef = React.useRef<HTMLDivElement>(null); 
  const dispatch = useDispatch();
@@ -33,8 +37,11 @@ const Sort = () => {
   }
 
   React.useEffect(() => {
-    const hendlerClickOutsize = (event: any) => {
-        if(!event.path.includes(sortRef.current)) {
+    const hendlerClickOutsize = (event: MouseEvent) => {
+      const _event = event as PopupClick & {
+        path: Node[];
+      }
+        if(sortRef.current && !_event.path.includes(sortRef.current)) {
           setIsVisible(false)
         }
     }

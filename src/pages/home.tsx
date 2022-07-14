@@ -11,7 +11,7 @@ import Cotegories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/Pizza-block';
 import Skeleton from '../components/Pizza-block/skeleton';
-import Pagination from '../components/pagination'
+import Pagination from '../components/pagination';
 import { sortsList } from "../components/Sort";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
-  const isMounted = React.useRef(false)
+  const isMounted = React.useRef(false);
 
  const onChangePage = (id: number) => {
   dispatch(setPageCount(id))
@@ -136,6 +136,8 @@ const Home: React.FC = () => {
     </>)
 }
 
+const str = 0.1 + 0.2
+console.log(str === 0.3)
 
 export default Home
 
