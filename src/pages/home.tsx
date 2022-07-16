@@ -5,7 +5,7 @@ import qs from "qs";
 
 
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import { setCategoryIndex, setPageCount, setFilters } from "../redux/slices/filterSlice";
 import Cotegories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -14,13 +14,11 @@ import Skeleton from '../components/Pizza-block/skeleton';
 import Pagination from '../components/pagination';
 import { sortsList } from "../components/Sort";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import { RootState, useAppDispatch } from "../redux/store";
 
 
 const Home: React.FC = () => {
-
-
-
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
@@ -28,10 +26,10 @@ const Home: React.FC = () => {
  const onChangePage = (id: number) => {
   dispatch(setPageCount(id))
  }
-  // @ts-ignore
-  const {categoryIndex, sortType, pageCount, searchValue} = useSelector((state) => state.filter)
-  // @ts-ignore
-  const {items, status} = useSelector((state) => state.pizzas)
+
+  const {categoryIndex, sortType, pageCount, searchValue} = useSelector((state: RootState) => state.filter)
+
+  const {items, status} = useSelector((state: RootState) => state.pizzas)
   
   
   const onClickCategory = (id: number) => {
@@ -47,9 +45,8 @@ const Home: React.FC = () => {
       const sortBy = sortType.sort.replace('-', '')
       const category = categoryIndex > 0 ? `category=${categoryIndex}` : ''
       dispatch
-      // @ts-ignore
       (fetchPizzas({
-        pageCount, category, sortBy, order, searchValue
+        pageCount: String(pageCount), category, sortBy, order, searchValue
       }))
     }
 
@@ -73,7 +70,9 @@ const Home: React.FC = () => {
       if(window.location.search){
         const params = qs.parse(window.location.search.substring(1))
         const sorts = sortsList.find(obj => obj.sort === params.sort)
-        console.log()
+        if(sorts) {
+          params.sorts = sorts
+        }
         dispatch(
           setFilters({
             ...params,
@@ -135,9 +134,6 @@ const Home: React.FC = () => {
       <Pagination value={pageCount} onChangePage={onChangePage} />
     </>)
 }
-
-const str = 0.1 + 0.2
-console.log(str === 0.3)
 
 export default Home
 
