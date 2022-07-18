@@ -1,18 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type SortType = {
+export type SortType = {
    name: string;
    sort: 'rating' | 'title' | 'price' | '-rating' | '-title' | '-price' 
 }
 
-interface FilterSliceState {
+export interface IFilterSliceState {
   categoryIndex: number,
   pageCount: number,
   searchValue: string,
   sortType: SortType,
 }
 
-const initialState: FilterSliceState = {
+const initialState: IFilterSliceState = {
   categoryIndex: 0,
   pageCount: 1,
   searchValue: '',
@@ -38,10 +38,19 @@ const filterSlice = createSlice({
     setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
-    setFilters(state, action: PayloadAction<FilterSliceState>) {
-      state.pageCount = Number(action.payload.pageCount);
-      state.sortType = action.payload.sorts;
-      state.categoryIndex = Number(action.payload.categoryIndex);
+    setFilters(state, action: PayloadAction<IFilterSliceState>) {
+      if(Object.keys(action.payload).length){
+        state.pageCount = Number(action.payload.pageCount);
+        state.sortType = action.payload.sortType;
+        state.categoryIndex = Number(action.payload.categoryIndex);
+      } else {
+        state.pageCount = 1;
+        state.sortType = { 
+          name: 'популярности (DESC)',
+          sort: 'rating' 
+        };
+        state.categoryIndex = 0;
+      }
     },
   },
 });

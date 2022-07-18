@@ -1,17 +1,18 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSort } from "../redux/slices/filterSlice"
+import { setSort, SortType } from "../redux/slices/filterSlice"
+import { RootState } from "../redux/store";
 
-type SortItem = {
-  name: string;
-  sort: string
-}
+// type SortItem = {
+//   name: string;
+//   sort: string
+// }
 
 type PopupClick = MouseEvent & {
   path: Node[];
 }
 
-export const sortsList: SortItem[] = [
+export const sortsList: SortType[] = [
   { name:'популярности (DESC)', sort: 'rating'},
   { name:'популярности (ASC)', sort: '-rating'},
   { name:'цене (DESC)', sort: 'price'},
@@ -25,13 +26,12 @@ const Sort: React.FC = () => {
 
  const sortRef = React.useRef<HTMLDivElement>(null); 
  const dispatch = useDispatch();
- // @ts-ignore
- const sortasdf = useSelector(state => state.filter.sortType)
+ const sortasdf = useSelector((state: RootState) => state.filter.sortType)
 
   const  [isVisible, setIsVisible] = React.useState(false)
 
 
-  const hendlerSortClick = (obj: SortItem) => {
+  const hendlerSortClick = (obj: SortType) => {
     dispatch(setSort(obj))
     setIsVisible(false)
   }

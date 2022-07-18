@@ -1,12 +1,9 @@
 import React from "react"
 import qs from "qs";
 
-
-
-
 import { useNavigate } from "react-router-dom";
 import { useSelector} from "react-redux";
-import { setCategoryIndex, setPageCount, setFilters } from "../redux/slices/filterSlice";
+import { setCategoryIndex, setPageCount, setFilters, IFilterSliceState } from "../redux/slices/filterSlice";
 import Cotegories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/Pizza-block';
@@ -68,20 +65,17 @@ const Home: React.FC = () => {
 
     React.useEffect(() => {
       if(window.location.search){
-        const params = qs.parse(window.location.search.substring(1))
-        const sorts = sortsList.find(obj => obj.sort === params.sort)
-        if(sorts) {
-          params.sorts = sorts
-        }
+        const params = qs.parse(window.location.search.substring(1)) 
+        const sortType = sortsList.find(obj => obj.sort === params.sort)
         dispatch(
           setFilters({
             ...params,
-            sorts,
-          }),
+            sortType,
+          } as IFilterSliceState),
         );
         isSearch.current = true
       }
-    }, []);
+    }, [dispatch]);
 
 
     // Если был первый рендер, то запрашиваем пиццы
