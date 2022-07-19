@@ -6,8 +6,7 @@ type CategoriesProps = {
 }
 
 
-const Cotegories: React.FC<CategoriesProps> = ({value, onClickCategory}) => {
-
+const Cotegories: React.FC<CategoriesProps> = React.memo(({value, onClickCategory}) => {
   const categories = [
     'Всё',
     'Мясные',
@@ -23,9 +22,9 @@ const Cotegories: React.FC<CategoriesProps> = ({value, onClickCategory}) => {
         <ul>
           {
           categories.map((categoryName, index) =>
-          <li
+          <li 
           key={index}
-          onClick={() => onClickCategory(index)} className={value === index ? 'active' : ''}>
+          onClick={() => onClickCategory(index)}  className={value === index ? 'active' : ''}>
             {categoryName}
           </li>
             )
@@ -33,7 +32,7 @@ const Cotegories: React.FC<CategoriesProps> = ({value, onClickCategory}) => {
         </ul>
       </div>
     );
-  };
+  });
 
   export default Cotegories;
   

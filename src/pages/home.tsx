@@ -10,7 +10,7 @@ import PizzaBlock from '../components/Pizza-block';
 import Skeleton from '../components/Pizza-block/skeleton';
 import Pagination from '../components/pagination';
 import { sortsList } from "../components/Sort";
-import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import { fetchPizzas} from "../redux/slices/pizzasSlice";
 import { RootState, useAppDispatch } from "../redux/store";
 
 
@@ -29,9 +29,9 @@ const Home: React.FC = () => {
   const {items, status} = useSelector((state: RootState) => state.pizzas)
   
   
-  const onClickCategory = (id: number) => {
+  const onClickCategory = React.useCallback((id: number) => {
     dispatch(setCategoryIndex(id))
-  }
+  }, [])
 
 
     // const [items, setItems] = React.useState([]);
@@ -95,10 +95,10 @@ const Home: React.FC = () => {
     <>
       <div className="content__top">
         <Cotegories value={categoryIndex} onClickCategory={onClickCategory} />
-        <Sort/>
+        <Sort value={sortType}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      { searchValue === '' || items.find((obj: any) => obj.title.toLowerCase().includes(searchValue.toLowerCase())) ? console.log('МЫ НАШЛИ ВАШИ ПИЦЦЫ') : <div className="content__error-info">
+      {  searchValue === '' || items.find((obj: any) => obj.title.toLowerCase().includes(searchValue.toLowerCase())) ? console.log('МЫ НАШЛИ ВАШИ ПИЦЦЫ') : <div className="content__error-info">
         <h2>Произошла ошибка <span>😕</span></h2>
         <p>
         К сожалению, пицц по вашему запросу не найдено
@@ -115,7 +115,7 @@ const Home: React.FC = () => {
           ? skeletons
           // фитрация через js
           : items.filter((obj: any) => obj.title.toLowerCase().includes(searchValue.toLowerCase())
-          ).map((obj: any) => <PizzaBlock 
+          ).map((obj: any) => <PizzaBlock key={obj.id}
           title={obj.title}
           price={obj.price}
           imageUrl={obj.imageUrl}

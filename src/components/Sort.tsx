@@ -1,15 +1,14 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSort, SortType } from "../redux/slices/filterSlice"
-import { RootState } from "../redux/store";
 
-// type SortItem = {
-//   name: string;
-//   sort: string
-// }
 
 type PopupClick = MouseEvent & {
   path: Node[];
+}
+
+type SortPopupProps = {
+  value: SortType
 }
 
 export const sortsList: SortType[] = [
@@ -22,11 +21,10 @@ export const sortsList: SortType[] = [
 ]
 
 
-const Sort: React.FC = () => {
+const Sort: React.FC<SortPopupProps> = React.memo(({value}) => {
 
  const sortRef = React.useRef<HTMLDivElement>(null); 
  const dispatch = useDispatch();
- const sortasdf = useSelector((state: RootState) => state.filter.sortType)
 
   const  [isVisible, setIsVisible] = React.useState(false)
 
@@ -65,14 +63,14 @@ const Sort: React.FC = () => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={() => isVisible === false ? setIsVisible(true) : setIsVisible(false)} >{sortasdf.name}</span>
+          <span onClick={() => isVisible === false ? setIsVisible(true) : setIsVisible(false)} >{value.name}</span>
         </div>
         { isVisible && (
         <div className="sort__popup">
           <ul>
             {
               sortsList.map((obj, index) => 
-                <li  key={index} onClick={() => hendlerSortClick(obj)} className= {sortasdf.sort === obj.sort ? "active" : ''}>
+                <li  key={index} onClick={() => hendlerSortClick(obj)} className= {value.sort === obj.sort ? "active" : ''}>
                   {obj.name}
                 </li>
                 )
@@ -81,6 +79,6 @@ const Sort: React.FC = () => {
         </div>)}
       </div>
     );
-  };
+  });
 
   export default Sort;

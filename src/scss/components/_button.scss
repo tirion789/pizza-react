@@ -53,6 +53,18 @@
     }
   }
 
+
+  &--disabled {
+    background-color: gainsboro;
+    border-color: gainsboro;
+    &:hover {
+      background-color: gainsboro;
+    }
+    &:active {
+      transform: translate(0);
+    }
+  } 
+
   &--outline {
     background-color: #fff;
     border-color: $orange;
@@ -138,6 +150,7 @@
     }
   }
 
+
   &--cart {
     display: flex;
     align-items: center;
@@ -155,3 +168,5 @@
     }
   }
 }
+
+

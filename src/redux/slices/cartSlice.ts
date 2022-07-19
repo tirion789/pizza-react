@@ -11,7 +11,7 @@ export type CartItem = {
   count: number
 }
 
-interface CartSliceState {
+export interface CartSliceState {
   totalPrice: number;
   items: CartItem[]
 }
@@ -45,13 +45,13 @@ const cartSlice = createSlice({
         findItem.count--;
       }
       state.totalPrice = state.items.reduce((sum, obj) => {
-        return  sum - obj.price * obj.count ;
+        return sum - (obj.price * obj.count);
       }, 0);
     },
     removeItem(state, action: PayloadAction<string>) {
       state.items = state.items.filter((obj) => obj.id !== action.payload);
       state.totalPrice = state.items.reduce((sum, obj) => {
-        return sum - obj.price * obj.count;
+        return  obj.price * obj.count - sum;
       }, 0);
     },
     clearItems(state) {

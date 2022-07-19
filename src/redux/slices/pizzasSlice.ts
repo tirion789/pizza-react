@@ -28,7 +28,7 @@ export const fetchPizzas = createAsyncThunk<PizzaItem[], FetchPizzaSlice>('pizza
     return data as PizzaItem[];
     });
 
-enum Status {
+export enum Status {
   LOADING = 'loading',
   SUCCESS = 'success',
   ERROR = 'error'
